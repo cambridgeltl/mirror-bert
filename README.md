@@ -4,12 +4,26 @@ Code repo for the EMNLP 2021 paper: [*Fast, Effective, and Self-Supervised: Tran
 
 ## Hugginface pretrained models
 
-[[mirror-bert-base-uncased-sentence]](https://huggingface.co/cambridgeltl/mirror-bert-base-uncased-sentence)<br>
-[[mirror-roberta-base-sentence]](https://huggingface.co/cambridgeltl/mirror-roberta-base-sentence)<br>
-[[mirror-bert-base-uncased-sentence-drophead]](https://huggingface.co/cambridgeltl/mirror-bert-base-uncased-sentence-drophead)<br>
-[[mirror-roberta-base-sentence-drophead]](https://huggingface.co/cambridgeltl/mirror-roberta-base-sentence-drophead)<br>
+### Sentence-level
+|model | STS avg. |
+|------|------|
+|[mirror-bert-base-uncased-sentence](https://huggingface.co/cambridgeltl/mirror-bert-base-uncased-sentence)|74.51|
+|[mirror-roberta-base-sentence](https://huggingface.co/cambridgeltl/mirror-roberta-base-sentence)|75.08|
+|[mirror-bert-base-uncased-sentence-drophead](https://huggingface.co/cambridgeltl/mirror-bert-base-uncased-sentence-drophead)|75.16|
+|[mirror-roberta-base-sentence-drophead](https://huggingface.co/cambridgeltl/mirror-roberta-base-sentence-drophead)| 76.67|
 
-Codes and more model weights coming in a few days!
+(Note that the released models would not replicate the exact numbers in the paper, since the reported numbers in the paper are average of three runs.)
+
+
+## Evaluate
+
+```python
+ python evaluation/sent_eval.py \                                                                                                                                                                                       fl418@ltl_gpu01
+ 		--model_dir "cambridgeltl/mirror-roberta-base-sentence-drophead" \
+		--agg_mode "cls"
+```
+
+Training code and more model weights coming in a few days!
 
 ## Citation
 ```bibtex
