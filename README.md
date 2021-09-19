@@ -18,9 +18,9 @@ Code repo for the EMNLP 2021 paper: [*Fast, Effective, and Self-Supervised: Tran
 ## Evaluate
 
 ```python
- python evaluation/sent_eval.py \                                                                                                                                                                                       fl418@ltl_gpu01
- 		--model_dir "cambridgeltl/mirror-roberta-base-sentence-drophead" \
-		--agg_mode "cls"
+python evaluation/sent_eval.py \
+  --model_dir "cambridgeltl/mirror-roberta-base-sentence-drophead" \
+  --agg_mode "cls"
 ```
 
 Training code and more model weights coming in a few days!
@@ -28,7 +28,7 @@ Training code and more model weights coming in a few days!
 ## Citation
 ```bibtex
 @inproceedings{
-	liu2021fast,
+  liu2021fast,
   title={Fast, Effective and Self-Supervised: Transforming Masked LanguageModels into Universal Lexical and Sentence Encoders},
   author={Liu, Fangyu and Vuli{\'c}, Ivan and Korhonen, Anna and Collier, Nigel},
   booktitle={EMNLP 2021},
