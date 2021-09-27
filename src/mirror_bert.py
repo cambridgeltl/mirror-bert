@@ -44,14 +44,14 @@ class MirrorBERT(object):
         self.tokenizer.save_pretrained(path)
 
     def load_model(self, path, max_length=50, lowercase=True, 
-            use_cuda=True,no_return=True):
+            use_cuda=True, return_model=False):
         
         self.tokenizer = AutoTokenizer.from_pretrained(path, 
                 use_fast=True, do_lower_case=lowercase)
         self.encoder = AutoModel.from_pretrained(path)
         if use_cuda:
             self.encoder = self.encoder.cuda()
-        if no_return:
+        if not return_model:
             return
         return self.encoder, self.tokenizer
     
@@ -78,7 +78,6 @@ class MirrorBERT(object):
             query_embed = (last_hidden_state * query_toks['attention_mask'].unsqueeze(-1)).sum(1) / query_toks['attention_mask'].sum(-1).unsqueeze(-1)
         else:
             raise NotImplementedError()
-
         return query_embed
 
     def get_embeddings(self, sentences, batch_size=1024, max_length=50, agg_mode="cls"):

@@ -135,10 +135,11 @@ def main(args):
 
     # load BERT tokenizer, dense_encoder
     mirror_bert = MirrorBERT()
-    encoder, tokenizer = mirror_bert.load_bert(
+    encoder, tokenizer = mirror_bert.load_model(
         path=args.model_dir,
         max_length=args.max_length,
         use_cuda=args.use_cuda,
+        return_model=True
     )
 
     # adjust dropout rates

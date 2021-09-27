@@ -28,7 +28,7 @@ from src.mirror_bert import MirrorBERT
 
 model_name = "cambridgeltl/mirror-roberta-base-sentence-drophead"
 mirror_bert = MirrorBERT()
-mirror_bert.load_model(path=model_name, use_cuda=True, no_return=True)
+mirror_bert.load_model(path=model_name, use_cuda=True)
 
 embeddings = mirror_bert.get_embeddings([
     "I transform pre-trained language models into universal text encoders.",
