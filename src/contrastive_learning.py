@@ -62,19 +62,4 @@ class ContrastiveLearningPairwise(nn.Module):
 
         return self.loss(query_embed, labels) 
 
-    def get_embeddings(self, sentences, batch_size=1024):
-        """
-        Compute all embeddings from mention tokens.
-        """
-        embedding_table = []
-        with torch.no_grad():
-            for start in tqdm(range(0, len(sentences), batch_size)):
-                end = min(start + batch_size, len(mentions))
-                batch = sentences[start:end]
-                batch_embedding = self.vectorizer(batch)
-                batch_embedding = batch_embedding.cpu()
-                embedding_table.append(batch_embedding)
-        embedding_table = torch.cat(embedding_table, dim=0)
-        return embedding_table
-
-
+    

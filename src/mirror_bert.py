@@ -26,12 +26,12 @@ class MirrorBERT(object):
         self.tokenizer = None
         self.encoder = None
 
-    def get_dense_encoder(self):
+    def get_encoder(self):
         assert (self.encoder is not None)
 
         return self.encoder
 
-    def get_dense_tokenizer(self):
+    def get_tokenizer(self):
         assert (self.tokenizer is not None)
 
         return self.tokenizer
@@ -42,24 +42,21 @@ class MirrorBERT(object):
 
         # save bert vocab
         self.tokenizer.save_pretrained(path)
-        
 
-    def load_model(self, path, max_length=25, use_cuda=True, lowercase=True):
-        self.load_bert(path, max_length, use_cuda)
+    def load_model(self, path, max_length=50, lowercase=True, 
+            use_cuda=True,no_return=True):
         
-        return self
-
-    def load_bert(self, path, max_length, use_cuda, lowercase=True):
         self.tokenizer = AutoTokenizer.from_pretrained(path, 
                 use_fast=True, do_lower_case=lowercase)
         self.encoder = AutoModel.from_pretrained(path)
         if use_cuda:
             self.encoder = self.encoder.cuda()
-
+        if no_return:
+            return
         return self.encoder, self.tokenizer
     
-    def encode(self, sentences, max_length=50, ):
-        sent_toks = tokenizer.batch_encode_plus(
+    def encode(self, sentences, max_length=50, agg_mode="cls"):
+        sent_toks = self.tokenizer.batch_encode_plus(
             list(sentences), 
             max_length=max_length, 
             padding="max_length", 
@@ -69,5 +66,34 @@ class MirrorBERT(object):
         sent_toks_cuda = {}
         for k,v in sent_toks.items():
             sent_toks_cuda[k] = v.cuda()
-        return self.encoder.get_embeddings(sent_toks_cuda)
-         
+        with torch.no_grad():
+            outputs = self.encoder(**sent_toks_cuda, return_dict=True, output_hidden_states=False)
+        last_hidden_state = outputs.last_hidden_state
+
+        if agg_mode=="cls":
+            query_embed = last_hidden_state[:,0]  
+        elif agg_mode == "mean": # including padded tokens
+            query_embed = last_hidden_state.mean(1)  
+        elif agg_mode == "mean_std":
+            query_embed = (last_hidden_state * query_toks['attention_mask'].unsqueeze(-1)).sum(1) / query_toks['attention_mask'].sum(-1).unsqueeze(-1)
+        else:
+            raise NotImplementedError()
+
+        return query_embed
+
+    def get_embeddings(self, sentences, batch_size=1024, max_length=50, agg_mode="cls"):
+        """
+        Compute embeddings from a list of sentence.
+        """
+        embedding_table = []
+        with torch.no_grad():
+            for start in tqdm(range(0, len(sentences), batch_size)):
+                end = min(start + batch_size, len(sentences))
+                batch = sentences[start:end]
+                batch_embedding = self.encode(batch, max_length=max_length, agg_mode=agg_mode)
+                batch_embedding = batch_embedding.cpu()
+                embedding_table.append(batch_embedding)
+        embedding_table = torch.cat(embedding_table, dim=0)
+        return embedding_table
+
+
