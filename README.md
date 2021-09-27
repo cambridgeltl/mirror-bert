@@ -4,7 +4,6 @@ Code repo for the EMNLP 2021 paper: [*Fast, Effective, and Self-Supervised: Tran
 
 ## Hugginface pretrained models
 
-### Sentence-level
 |model | STS avg. |
 |------|------|
 |[mirror-bert-base-uncased-sentence](https://huggingface.co/cambridgeltl/mirror-bert-base-uncased-sentence)|74.51|
@@ -14,22 +13,25 @@ Code repo for the EMNLP 2021 paper: [*Fast, Effective, and Self-Supervised: Tran
 
 (Note that the released models would not replicate the exact numbers in the paper, since the reported numbers in the paper are average of three runs.)
 
+## Train
+```bash
+./mirror_scripts/mirror_sentence_bert.sh 0,1
+```
+where `0,1` are GPU indices. This script should complete in 20-30 seconds on two NVIDIA 2080Ti/3090 GPUs. If you encounter out-of-memory error, consider reducing either `max_length` in the script.
 
 ## Evaluate
-
-```python
+```bash
 python evaluation/sent_eval.py \
   --model_dir "cambridgeltl/mirror-roberta-base-sentence-drophead" \
   --agg_mode "cls"
 ```
 
-Training code and more model weights coming in a few days!
+Training code and model weights for lexical-level tasks are coming in a few days!
 
 ## Citation
 ```bibtex
-@inproceedings{
-  liu2021fast,
-  title={Fast, Effective and Self-Supervised: Transforming Masked LanguageModels into Universal Lexical and Sentence Encoders},
+@inproceedings{liu2021fast,
+  title={Fast, Effective, and Self-Supervised: Transforming Masked Language Models into Universal Lexical and Sentence Encoders},
   author={Liu, Fangyu and Vuli{\'c}, Ivan and Korhonen, Anna and Collier, Nigel},
   booktitle={EMNLP 2021},
   year={2021}
