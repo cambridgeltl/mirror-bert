@@ -19,6 +19,23 @@ Code repo for the EMNLP 2021 paper: [*Fast, Effective, and Self-Supervised: Tran
 ```
 where `0,1` are GPU indices. This script should complete in 20-30 seconds on two NVIDIA 2080Ti/3090 GPUs. If you encounter out-of-memory error, consider reducing `max_length` in the script.
 
+For in-domain training with your custom corpus, simply set `train_dir` in the script to your txt file (one sentence per line). When you do have raw sentences from your target domain, we recommend you using your own data for the optimal performance.
+
+## Encode 
+It's easy to compute your own sentence embeddings:
+```python
+from src.mirror_bert import MirrorBERT
+
+model_name = "cambridgeltl/mirror-roberta-base-sentence-drophead"
+mirror_bert = MirrorBERT()
+mirror_bert.load_model(path=model_name, use_cuda=True, no_return=True)
+
+embeddings = mirror_bert.get_embeddings([
+    "I transform pre-trained language models into universal text encoders.",
+], agg_mode="cls")
+print (embeddings.shape)
+```
+
 ## Evaluate
 ```bash
 python evaluation/sent_eval.py \
