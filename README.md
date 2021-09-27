@@ -17,7 +17,7 @@ Code repo for the EMNLP 2021 paper: [*Fast, Effective, and Self-Supervised: Tran
 ```bash
 ./mirror_scripts/mirror_sentence_bert.sh 0,1
 ```
-where `0,1` are GPU indices. This script should complete in 20-30 seconds on two NVIDIA 2080Ti/3090 GPUs. If you encounter out-of-memory error, consider reducing either `max_length` in the script.
+where `0,1` are GPU indices. This script should complete in 20-30 seconds on two NVIDIA 2080Ti/3090 GPUs. If you encounter out-of-memory error, consider reducing `max_length` in the script.
 
 ## Evaluate
 ```bash
