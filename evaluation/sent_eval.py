@@ -37,7 +37,7 @@ def load_sickr():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Sentence similarity  evaluation.')
     parser.add_argument('--model_dir', type=str, default="cambridgeltl/mirror-roberta-base-sentence-drophead")
-    parser.add_argument('--agg_mode', type=str, default="cls", help="{cls|mean_pool|...}") 
+    parser.add_argument('--agg_mode', type=str, default="cls", help="{cls|mean|mean_std|...}") 
     parser.add_argument('--dataset', type=str, default="all", 
         choices=["2012", "2013", "2014", "2015", "2016", "stsb", "sickr", "all"])
     parser.add_argument('--maxlen', type=int, default=64) 
@@ -90,13 +90,13 @@ if __name__ == "__main__":
                 outputs_ = model(**toks_cuda, output_hidden_states=True)
             last_hidden_state = outputs_.last_hidden_state
             pooler_output = outputs_.pooler_output
-            if agg_mode == "mean_pool":
+            if agg_mode == "mean":
                 np_feature_mean_tok = last_hidden_state.detach().cpu().numpy().mean(1) # mean-tok over all tokens (incl. padded ones)
-            if agg_mode == "mean_pool_std":
+            if agg_mode == "mean_std":
                 np_feature_mean_tok = ((last_hidden_state * toks_cuda['attention_mask'].unsqueeze(-1)).sum(1) / toks_cuda['attention_mask'].sum(-1).unsqueeze(-1)).cpu()
             elif agg_mode == "cls_pooler":
                 np_feature_mean_tok = pooler_output.detach().cpu().numpy() # use [CLS] of pooler
-            elif agg_mode == "first-tok":
+            elif agg_mode == "first_tok":
                 np_feature_mean_tok = last_hidden_state.detach().cpu().numpy()[:,1,:]  # first sub-tok
             elif agg_mode == "cls":
                 np_feature_mean_tok = last_hidden_state.detach().cpu().numpy()[:,0,:] # use [CLS]
@@ -111,13 +111,13 @@ if __name__ == "__main__":
                 outputs_ = model(**toks_cuda, output_hidden_states=True)
             last_hidden_state = outputs_.last_hidden_state
             pooler_output = outputs_.pooler_output
-            if agg_mode == "mean_pool":
+            if agg_mode == "mean":
                 np_feature_mean_tok = last_hidden_state.detach().cpu().numpy().mean(1) # mean-tok over all tokens (incl. padded ones)
-            if agg_mode == "mean_pool_std":
+            if agg_mode == "mean_std":
                 np_feature_mean_tok = ((last_hidden_state * toks_cuda['attention_mask'].unsqueeze(-1)).sum(1) / toks_cuda['attention_mask'].sum(-1).unsqueeze(-1)).cpu()
             elif agg_mode == "cls_pooler":
                 np_feature_mean_tok = pooler_output.detach().cpu().numpy() # use [CLS] of pooler
-            elif agg_mode == "first-tok":
+            elif agg_mode == "first_tok":
                 np_feature_mean_tok = last_hidden_state.detach().cpu().numpy()[:,1,:]  # first sub-tok
             elif agg_mode == "cls":
                 np_feature_mean_tok = last_hidden_state.detach().cpu().numpy()[:,0,:] # use [CLS]
