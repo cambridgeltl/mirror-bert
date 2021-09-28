@@ -19,7 +19,7 @@ Code repo for the EMNLP 2021 paper: [*Fast, Effective, and Self-Supervised: Tran
 ```
 where `0,1` are GPU indices. This script should complete in 20-30 seconds on two NVIDIA 2080Ti/3090 GPUs. If you encounter out-of-memory error, consider reducing `max_length` in the script.
 
-For in-domain training with your custom corpus, simply set `train_dir` in the script to your txt file (one sentence per line). When you do have raw sentences from your target domain, we recommend you using your own data for the optimal performance.
+For training with your custom corpus, simply set `train_dir` in the script to your own txt file (one sentence per line). When you do have raw sentences from your target domain, we recommend you always use the in-domain data for optimal performance.
 
 ## Encode 
 It's easy to compute your own sentence embeddings:
