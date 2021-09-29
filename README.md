@@ -12,10 +12,16 @@ Mirror-BERT is a contrastive learning method that converts pretrained language m
 
 |model | STS avg. |
 |------|------|
+|baseline: sentence-bert (supervised)| 74.89 |
 |[mirror-bert-base-uncased-sentence](https://huggingface.co/cambridgeltl/mirror-bert-base-uncased-sentence)|74.51|
 |[mirror-roberta-base-sentence](https://huggingface.co/cambridgeltl/mirror-roberta-base-sentence)|75.08|
 |[mirror-bert-base-uncased-sentence-drophead](https://huggingface.co/cambridgeltl/mirror-bert-base-uncased-sentence-drophead)|75.16|
-|[mirror-roberta-base-sentence-drophead](https://huggingface.co/cambridgeltl/mirror-roberta-base-sentence-drophead)| 76.67|
+|[mirror-roberta-base-sentence-drophead](https://huggingface.co/cambridgeltl/mirror-roberta-base-sentence-drophead)| **76.67** |
+
+|model | Multi-SimLex (ENG)|
+|------|--------|
+|baseline: fasttext| 52.80 |
+|[mirror-bert-base-uncased-word](https://huggingface.co/cambridgeltl/mirror-bert-base-uncased-word)| **55.60** |
 
 (Note that the released models would not replicate the exact numbers in the paper, since the reported numbers in the paper are average of three runs.)
 
@@ -26,11 +32,11 @@ For training sentence representations:
 ```
 where `0,1` are GPU indices. This script should complete in 20-30 seconds on two NVIDIA 2080Ti/3090 GPUs. If you encounter out-of-memory error, consider reducing `max_length` in the script. Scripts for replicating other models are availible in `mirror_scripts/`.
 
-**Custom data:** For training with your custom corpus, simply set `--train_dir` in the script to your own txt file (one sentence per line). When you do have raw sentences from your target domain, we recommend you always use the in-domain data for optimal performance.
+**Custom data:** For training with your custom corpus, simply set `--train_dir` in the script to your own txt file (one sentence per line). When you do have raw sentences from your target domain, we recommend you always use the in-domain data for optimal performance. E.g., if you aim to create a conversational encoder, sample 10k utterances to train your model!
 
-**Supervised training:** Format your training txt file in the format of `sent1||sent2` and store them one pair per line in a txt file. Then turn on the `--pairwise` option. `text1` and `text2` will be regarded as a positive pair in contrastive learning.
+**Supervised training:** Format your training txt file in the format of `sent1||sent2` and store them one pair per line in a txt file. Then turn on the `--pairwise` option. `text1` and `text2` will be regarded as a positive pair in contrastive learning. You can be creative in finding such training pairs. E.g., the `question||answer` pairs from the [Amazon quesrion-answer dataset](https://jmcauley.ucsd.edu/data/amazon/qa/) works quite well.
 
-**Word-level training:** Use `mirror_scripts/mirror_sentence_bert.sh`. 
+**Word-level training:** Use [`mirror_scripts/mirror_word_bert.sh`](https://github.com/cambridgeltl/mirror-bert/blob/main/mirror_scripts/mirror_word_bert.sh). 
 
 ## Encode 
 It's easy to compute your own sentence embeddings:
@@ -51,17 +57,17 @@ print (embeddings.shape)
 Evaluate sentence representations:
 ```bash
 >> python evaluation/eval.py \
-		--model_dir "cambridgeltl/mirror-roberta-base-sentence-drophead" \
-		--agg_mode "cls" \
-		--dataset sts_all
+	--model_dir "cambridgeltl/mirror-roberta-base-sentence-drophead" \
+	--agg_mode "cls" \
+	--dataset sts_all
 ```
 
 Evaluate word representations:
 ```bash
 >> python evaluation/eval.py \
-		--model_dir "cambridgeltl/mirror-bert-base-word" \
-		--agg_mode "cls" \
-		--dataset multisimlex_ENG
+	--model_dir "cambridgeltl/mirror-bert-base-uncased-word" \
+	--agg_mode "cls" \
+	--dataset multisimlex_ENG
 ```
 To test models on other languages, replace `ENG` to your custom languages. See [here](https://multisimlex.com/) for all supported languages on Multi-SimLex.
 
