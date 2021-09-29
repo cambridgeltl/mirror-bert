@@ -20,12 +20,17 @@ Mirror-BERT is a contrastive learning method that converts pretrained language m
 (Note that the released models would not replicate the exact numbers in the paper, since the reported numbers in the paper are average of three runs.)
 
 ## Train
+For training sentence representations:
 ```bash
-./mirror_scripts/mirror_sentence_bert.sh 0,1
+>> ./mirror_scripts/mirror_sentence_bert.sh 0,1
 ```
-where `0,1` are GPU indices. This script should complete in 20-30 seconds on two NVIDIA 2080Ti/3090 GPUs. If you encounter out-of-memory error, consider reducing `max_length` in the script.
+where `0,1` are GPU indices. This script should complete in 20-30 seconds on two NVIDIA 2080Ti/3090 GPUs. If you encounter out-of-memory error, consider reducing `max_length` in the script. Scripts for replicating other models are availible in `mirror_scripts/`.
 
-For training with your custom corpus, simply set `train_dir` in the script to your own txt file (one sentence per line). When you do have raw sentences from your target domain, we recommend you always use the in-domain data for optimal performance.
+**Custom data:** For training with your custom corpus, simply set `--train_dir` in the script to your own txt file (one sentence per line). When you do have raw sentences from your target domain, we recommend you always use the in-domain data for optimal performance.
+
+**Supervised training:** Format your training txt file in the format of `sent1||sent2` and store them one pair per line in a txt file. Then turn on the `--pairwise` option. `text1` and `text2` will be regarded as a positive pair in contrastive learning.
+
+**Word-level training:** Use `mirror_scripts/mirror_sentence_bert.sh`. 
 
 ## Encode 
 It's easy to compute your own sentence embeddings:
@@ -43,11 +48,23 @@ print (embeddings.shape)
 ```
 
 ## Evaluate
+Evaluate sentence representations:
 ```bash
-python evaluation/sent_eval.py \
-  --model_dir "cambridgeltl/mirror-roberta-base-sentence-drophead" \
-  --agg_mode "cls"
+>> python evaluation/eval.py \
+		--model_dir "cambridgeltl/mirror-roberta-base-sentence-drophead" \
+		--agg_mode "cls" \
+		--dataset sts_all
 ```
+
+Evaluate word representations:
+```bash
+>> python evaluation/eval.py \
+		--model_dir "cambridgeltl/mirror-bert-base-word" \
+		--agg_mode "cls" \
+		--dataset multisimlex_ENG
+```
+To test models on other languages, replace `ENG` to your custom languages. See [here](https://multisimlex.com/) for all supported languages on Multi-SimLex.
+
 
 Training code and model weights for lexical-level tasks are coming in a few days!
 
