@@ -1,6 +1,9 @@
 # Mirror-BERT
 
+<img align="right" width="400"  src="https://production-media.paperswithcode.com/methods/cd18d6ac-ca08-4fdb-bc69-69e4551372d1.png">
+
 Code repo for the EMNLP 2021 paper: [*Fast, Effective, and Self-Supervised: Transforming Masked Language Models into Universal Lexical and Sentence Encoders*](https://arxiv.org/pdf/2104.08027.pdf).
+
 
 ## Hugginface pretrained models
 
