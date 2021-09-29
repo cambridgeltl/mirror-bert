@@ -74,8 +74,6 @@ Evaluate word representations:
 To test models on other languages, replace `ENG` to your custom languages. See [here](https://multisimlex.com/) for all supported languages on Multi-SimLex.
 
 
-Training code and model weights for lexical-level tasks are coming in a few days!
-
 ## Citation
 ```bibtex
 @inproceedings{liu2021fast,
