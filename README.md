@@ -2,8 +2,11 @@
 
 <img align="right" width="400"  src="https://production-media.paperswithcode.com/methods/cd18d6ac-ca08-4fdb-bc69-69e4551372d1.png">
 
-Code repo for the EMNLP 2021 paper: [*Fast, Effective, and Self-Supervised: Transforming Masked Language Models into Universal Lexical and Sentence Encoders*](https://arxiv.org/pdf/2104.08027.pdf).
+Code repo for the EMNLP 2021 paper: <br>
+[*Fast, Effective, and Self-Supervised: Transforming Masked Language Models into Universal Lexical and Sentence Encoders*](https://arxiv.org/pdf/2104.08027.pdf)<br>
+by [Fangyu Liu](http://fangyuliu.me/about.html), [Ivan Vulić](https://sites.google.com/site/ivanvulic/), [Anna Korhonen](https://sites.google.com/site/annakorhonen/), and [Nigel Collier](https://sites.google.com/site/nhcollier/). 
 
+Mirror-BERT is a contrastive learning method that converts pretrained language models (PLMs) into universal text encoders. It takes a PLM and a txt file containing raw text as input, and output a strong text embedding model, in just 20-30 seconds. It works well for not only sentence, but also word and phrase representation learning.
 
 ## Hugginface pretrained models
 
