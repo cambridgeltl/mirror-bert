@@ -13,6 +13,4 @@ CUDA_VISIBLE_DEVICES=$1 python3 train.py \
 	--agg_mode "mean" \
 	--amp \
 	--parallel \
-	--use_cuda \
- 	--save_checkpoint_all
-
+	--use_cuda 

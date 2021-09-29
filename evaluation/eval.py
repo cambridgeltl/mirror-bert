@@ -11,35 +11,13 @@ from scipy import spatial
 from scipy.stats.stats import pearsonr,spearmanr
 from transformers import AutoTokenizer, AutoModel
 
-
-def load_stsb():
-    # STS benchmark (en)
-    sts = pandas.read_csv("./data/STS_data/en/sts-b-test.txt", delimiter="\t",
-                      names=["genre","filename","year", "?", "score", "sent1", "sent2", "license"],
-                      quoting=csv.QUOTE_NONE, encoding='utf-8') 
-    return sts["sent1"].tolist(), sts["sent2"].tolist(), sts["score"].tolist()
-
-def load_sts201x(year="2012"):
-    # STS 2012-2016
-    sts = pandas.read_csv(f"./data/STS_data/en/{year}.test.tsv",
-                      delimiter="\t", names=["score","sent1", "sent2"], quoting=csv.QUOTE_NONE, encoding='utf-8')
-    sts = sts.dropna()
-    return sts["sent1"].tolist(), sts["sent2"].tolist(), sts["score"].tolist()
-
-def load_sickr():
-    # SICK-R dataset
-    sts = pandas.read_csv("./data/STS_data/en/SICK_annotated.txt", delimiter="\t",
-                      quoting=csv.QUOTE_NONE, encoding='utf-8')
-    sts = sts[sts["SemEval_set"] == "TEST"]
-    return sts["sentence_A"].tolist(), sts["sentence_B"].tolist(), sts["relatedness_score"].tolist()
-
+from load_data import *
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Sentence similarity  evaluation.')
+    parser = argparse.ArgumentParser(description='Word/sentence similarity evaluation.')
     parser.add_argument('--model_dir', type=str, default="cambridgeltl/mirror-roberta-base-sentence-drophead")
     parser.add_argument('--agg_mode', type=str, default="cls", help="{cls|mean|mean_std|...}") 
-    parser.add_argument('--dataset', type=str, default="all", 
-        choices=["2012", "2013", "2014", "2015", "2016", "stsb", "sickr", "all"])
+    parser.add_argument('--dataset', type=str, default="sent_all")
     parser.add_argument('--maxlen', type=int, default=64) 
     parser.add_argument('--batch_size', type=int, default=128) 
     parser.add_argument('--device', type=int, default=0) 
@@ -53,17 +31,24 @@ if __name__ == "__main__":
 
     bsz = args.batch_size
     maxlen = args.maxlen
-    if args.dataset == "all":
-        datasets = ["2012", "2013", "2014", "2015", "2016", "stsb","sickr"]
+    if args.dataset == "sent_all":
+        datasets = ["sts2012", "sts2013", "sts2014", "sts2015", "sts2016", "stsb", "sickr"]
     else:
         datasets = [args.dataset]
 
-    # check if STS_data exist
+    # For sentence: check if STS_data exist
     if not os.path.exists("./data/STS_data"):
         zip_save_path = "./data/STS_data.zip"
         subprocess.run(["wget", "--no-check-certificate", "https://fangyuliu.me/data/STS_data.zip", "-P", "data/"])
         with ZipFile(zip_save_path, "r") as zipIn:
             zipIn.extractall("./data/")
+    
+    # For word: check if multisimlex exist
+    if not os.path.exists("./data/multisimlex"):
+        subprocess.run(["mkdir", "./data/multisimlex"])
+        subprocess.run(["wget", "--no-check-certificate", "https://multisimlex.com/data/translation.csv", "-P", "./data/multisimlex/"])
+        subprocess.run(["wget", "--no-check-certificate", "https://multisimlex.com/data/scores.csv", "-P", "./data/multisimlex/"])
+
     
     # load the model
     tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -75,8 +60,13 @@ if __name__ == "__main__":
             dataset = load_stsb()
         elif d == "sickr": 
             dataset = load_sickr()
-        else:
+        elif "sts201" in d:
             dataset = load_sts201x(d)
+        elif "multisimlex" in d:
+            lang = d[-3:]
+            dataset = load_multisimlex(lang)
+        else:
+            raise NotImplementedError()
 
         sents1, sents2, gold_scores = dataset
         print (d, "size:", len(sents1))
