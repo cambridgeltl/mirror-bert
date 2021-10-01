@@ -14,5 +14,5 @@ CUDA_VISIBLE_DEVICES=$1 python3 train.py \
 	--amp \
 	--parallel \
 	--use_cuda \
- --save_checkpoint_all \
---checkpoint_step 1000 
+	--save_checkpoint_all \
+	--checkpoint_step 1000 
