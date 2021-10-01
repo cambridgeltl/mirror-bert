@@ -5,7 +5,8 @@ data/*
 # add the path with a preceeding exclamation mark here, e.g.:
 #!data/example/
 !data/mirror_corpus/
-!data/mirror_corpus_supervised/README.md
+!data/mirror_corpus_supervised/
+data/mirror_corpus_supervised/amazon_qa_pairs_1172000.txt
 
 # Temporary files
 *.swp
