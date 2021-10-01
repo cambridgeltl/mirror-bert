@@ -5,6 +5,7 @@ data/*
 # add the path with a preceeding exclamation mark here, e.g.:
 #!data/example/
 !data/mirror_corpus/
+!data/mirror_corpus_supervised/README.md
 
 # Temporary files
 *.swp

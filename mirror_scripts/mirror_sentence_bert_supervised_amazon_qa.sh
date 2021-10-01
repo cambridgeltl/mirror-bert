@@ -1,0 +1,18 @@
+CUDA_VISIBLE_DEVICES=$1 python3 train.py \
+	--model_dir "cambridgeltl/mirror-roberta-base-sentence-drophead" \
+	--train_dir "./data/mirror_corpus_supervised/amazon_qa_pairs_1172000.txt" \
+	--output_dir tmp/roberta_base_mirror_supervised_amazon_qa_infonce0.04_maxlen50_bs200_mask0_dropout0.1_drophead0.0_cls \
+	--epoch 3 \
+	--train_batch_size 200 \
+	--learning_rate 2e-5 \
+	--max_length 50 \
+	--infoNCE_tau 0.04 \
+	--dropout_rate 0.1 \
+	--drophead_rate 0.0 \
+	--random_span_mask 0 \
+	--agg_mode "cls" \
+	--amp \
+	--parallel \
+	--use_cuda \
+ --save_checkpoint_all \
+--checkpoint_step 1000 

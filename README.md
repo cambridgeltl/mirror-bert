@@ -36,7 +36,7 @@ where `0,1` are GPU indices. This script should complete in 20-30 seconds on two
 
 **Custom data:** For training with your custom corpus, simply set `--train_dir` in the script to your own txt file (one sentence per line). When you do have raw sentences from your target domain, we recommend you always use the in-domain data for optimal performance. E.g., if you aim to create a conversational encoder, sample 10k utterances to train your model!
 
-**Supervised training:** Format your training txt file in the format of `sent1||sent2` and store them one pair per line in a txt file. Then turn on the `--pairwise` option. `text1` and `text2` will be regarded as a positive pair in contrastive learning. You can be creative in finding such training pairs. E.g., the `question||answer` pairs from the [Amazon quesrion-answer dataset](https://jmcauley.ucsd.edu/data/amazon/qa/) work quite well.
+**Supervised training:** Format your training txt file in the format of `sent1||sent2` and store them one pair per line in a txt file. Then turn on the `--pairwise` option. `text1` and `text2` will be regarded as a positive pair in contrastive learning. You can be creative in finding such training pairs. E.g., the `question||answer` pairs from the [Amazon quesrion-answer dataset](https://jmcauley.ucsd.edu/data/amazon/qa/) work quite well. Example training script: [`mirror_scripts/mirror_sentence_roberta_supervised.sh`](). Note that when tuned on your in-domain data, you shouldn't expect the model to be good at STS -- you should evaluate on your in-domain task instead.
 
 **Word-level training:** Use [`mirror_scripts/mirror_word_bert.sh`](https://github.com/cambridgeltl/mirror-bert/blob/main/mirror_scripts/mirror_word_bert.sh). 
 
