@@ -30,7 +30,7 @@ def parse_args():
     """
     Parse input arguments
     """
-    parser = argparse.ArgumentParser(description='Biosyn train')
+    parser = argparse.ArgumentParser(description='train Mirror-BERT')
 
     # Required
     parser.add_argument('--train_dir', type=str, required=True, help='training set directory')
