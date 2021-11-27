@@ -2,13 +2,16 @@
 
 <img align="right" width="400"  src="https://production-media.paperswithcode.com/methods/cd18d6ac-ca08-4fdb-bc69-69e4551372d1.png">
 
+**UPDATE**: see a follow-up work [**_Trans-Encoder_**](https://github.com/amzn/trans-encoder), a SotA unsupervised model for STS.
+
 Code repo for the **EMNLP 2021** paper: <br>
 [***Fast, Effective, and Self-Supervised: Transforming Masked Language Models into Universal Lexical and Sentence Encoders***](https://arxiv.org/pdf/2104.08027.pdf)<br>
 by [Fangyu Liu](http://fangyuliu.me/about.html), [Ivan Vulić](https://sites.google.com/site/ivanvulic/), [Anna Korhonen](https://sites.google.com/site/annakorhonen/), and [Nigel Collier](https://sites.google.com/site/nhcollier/). 
 
 Mirror-BERT is an unsupervised contrastive learning method that converts pretrained language models (PLMs) into universal text encoders. It takes a PLM and a txt file containing raw text as input, and output a strong text embedding model, in just 20-30 seconds. It works well for not only sentence, but also word and phrase representation learning.
 
-## Hugginface pretrained models
+
+## Huggingface pretrained models
 
 Sentence enocders:
 |model | STS avg. |
@@ -76,10 +79,18 @@ To test models on other languages, replace `ENG` to your custom languages. See [
 
 ## Citation
 ```bibtex
-@inproceedings{liu2021fast,
-  title={Fast, Effective, and Self-Supervised: Transforming Masked Language Models into Universal Lexical and Sentence Encoders},
-  author={Liu, Fangyu and Vuli{\'c}, Ivan and Korhonen, Anna and Collier, Nigel},
-  booktitle={EMNLP 2021},
-  year={2021}
+@inproceedings{liu-etal-2021-fast,
+    title = "Fast, Effective, and Self-Supervised: Transforming Masked Language Models into Universal Lexical and Sentence Encoders",
+    author = "Liu, Fangyu  and
+      Vuli{\'c}, Ivan  and
+      Korhonen, Anna  and
+      Collier, Nigel",
+    booktitle = "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+    month = nov,
+    year = "2021",
+    address = "Online and Punta Cana, Dominican Republic",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2021.emnlp-main.109",
+    pages = "1442--1459",
 }
 ```
