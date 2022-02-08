@@ -2,7 +2,7 @@
 
 <img align="right" width="400"  src="https://production-media.paperswithcode.com/methods/cd18d6ac-ca08-4fdb-bc69-69e4551372d1.png">
 
-**UPDATE**: see a follow-up work [**_Trans-Encoder_**](https://github.com/amzn/trans-encoder), a SotA unsupervised model for STS.
+**UPDATE**: see a follow-up work [**_Trans-Encoder_ (ICLR'22)**](https://github.com/amzn/trans-encoder), a SotA unsupervised model for STS.
 
 Code repo for the **EMNLP 2021** paper: <br>
 [***Fast, Effective, and Self-Supervised: Transforming Masked Language Models into Universal Lexical and Sentence Encoders***](https://arxiv.org/pdf/2104.08027.pdf)<br>
